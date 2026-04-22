@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubra a Palavra</title>
+  <style>
+    /* Estilos Gerais (Melhoria do Layout) */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      /* Fonte moderna */
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      /* Fundo suave */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      /* Sombra suave */
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #ebedee;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      color: #555;
+      margin-top: 25px;
+    }
+
+    /* Estilos para Inputs e Botões */
+    input {
+      padding: 12px;
+      margin: 8px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      width: calc(100% - 32px);
+      /* Largura total menos padding/margin */
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      /* Pequeno efeito de clique */
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    /* --- A MELHORIA PRINCIPAL QUE VOCÊ PEDIU --- */
+    #mostrarPalavra {
+      font-family: 'Courier New', Courier, monospace;
+      /* Fonte de largura fixa */
+      font-size: 2.5rem;
+      /* Letras grandes */
+      letter-spacing: 15px;
+      /* ESPAÇAMENTO EXTREMO ENTRE LETRAS */
+      display: block;
+      /* Garante que fique em sua própria linha */
+      margin: 20px 0;
+      /* Espaço em cima e embaixo */
+      color: #2c3e50;
+      font-weight: bold;
+    }
+
+    #mostrarDica {
+      font-weight: bold;
+      color: #e67e22;
+      /* Cor diferente para a dica */
+    }
+
+    hr {
+      margin: 30px 0;
+      border: 0;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Jogo: Descubra a Palavra</h1>
+
+    <h3>Jogador 1: Configuração</h3>
+    <input type="password" id="palavra" placeholder="Digite a palavra secreta">
+    <input type="text" id="dica" placeholder="Dê uma dica">
+    <button onclick="iniciarJogo()">Enviar e Começar</button>
+
+
+    <hr>
+
+    <div class="game-area">
+      <p>Dica: <span id="mostrarDica">---</span></p>
+      <p>Palavra:</p>
+      <span id="mostrarPalavra"></span>
+    </div>
+
+
+    <hr>
+
+    <h3>Jogador 2: Palpite</h3>
+    <button onclick="chutarLetra()">Chutar uma letra</button>
+    <br>
+    <h1>Area de Jogos</h1>
+    <a href="atividade1.html"><button>Jogo Rolar Dado</button></a>
+  </div>
+
+  
+  
+
+  <script>
+
+    let palavraSecreta = "";
+    let palavraOculta = "";
+
+    function iniciarJogo() {
+      // 1. Pegar valor da palavra e dica
+      // DICA: use .value
+      let palavra = document.getElementById('palavra').value
+
+      let dica = document.getElementById('dica').value
+
+      // Pequena validação para não começar vazio
+      if (!palavra || !dica) {
+        alert("Preencha a palavra e a dica antes de começar!");
+        return;
+      }
+
+      // 2. Converter para minúsculo
+      // DICA: use toLowerCase()
+
+      palavraSecreta = palavra.toLowerCase()
+      let dica1 = dica.toLowerCase()
+
+      // 3. Criar os traços (_ _ _)
+      // DICA: use repeat() ou loop
+
+      palavraOculta = "_".repeat(palavraSecreta.length);
+
+      // 4. Mostrar dica na tela
+
+      document.getElementById('mostrarDica').innerHTML = dica1
+
+      // 5. Mostrar palavra oculta na tela
+
+      document.getElementById('mostrarPalavra').innerHTML = palavraOculta
+
+      // Limpa os inputs para o jogador 2 não ver
+      document.getElementById('palavra').value = "";
+      document.getElementById('dica').value = "";
+    }
+
+    function chutarLetra() {
+      // Garante que o jogo já começou
+      if (!palavraSecreta) {
+        alert("O Jogador 1 precisa definir a palavra primeiro!");
+        return;
+      }
+
+      // 1. Pede a letra
+      let chutar = prompt("Chute uma letra");
+      // Cancela se o jogador não digitar nada
+      if (!chutar) return;
+
+      // 2. Converte
+      let letraChutada = chutar.toLowerCase();
+
+      // 3. Verifica se a letra existe na PALAVRA SECRETA
+      if (palavraSecreta.includes(letraChutada)) {
+
+        let novaPalavraOculta = "";
+
+        // 4. O Loop: Vamos construir a palavra de novo, letra por letra
+        for (let i = 0; i < palavraSecreta.length; i++) {
+          if (palavraSecreta[i] === letraChutada) {
+            // Se a letra na posição 'i' for a que eu chutei, coloco ela
+            novaPalavraOculta += letraChutada;
+          } else {
+            // Se não for, mantenho o que já estava lá (seja "_" ou outra letra já descoberta)
+            novaPalavraOculta += palavraOculta[i];
+          }
+        }
+
+        // Atualizamos a variável global com a nova versão
+        palavraOculta = novaPalavraOculta;
+
+        // 5. Atualiza a tela
+        document.getElementById('mostrarPalavra').innerHTML = palavraOculta;
+
+        // Verifica se ganhou
+        if (!palavraOculta.includes("_")) {
+          alert("Parabéns! Você ganhou! A palavra era: " + palavraSecreta.toUpperCase());
+        }
+
+      } else {
+        alert("Putz, não tem essa letra!");
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
